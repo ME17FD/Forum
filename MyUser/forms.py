@@ -11,7 +11,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email', 'fname', 'lname', 'phone', 'cin', 'cin_image', 'password']
+        fields = ['email', 'fname', 'lname', 'profile_pic', 'password']
         requied = User.REQUIRED_FIELDS
 
     def __init__(self, *args, **kwargs):
@@ -37,10 +37,10 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError("Password must be at least 8 characters long.")
         return password
 
-    def clean_cin_image(self):
-        cin_image = self.cleaned_data.get('cin_image')
+    def clean_profile_pic(self):
+        profile_pic = self.cleaned_data.get('profile_pic')
         # Add custom validation for cin_image
-        return cin_image
+        return profile_pic
 
     def clean(self):
         cleaned_data = super().clean()

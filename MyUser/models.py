@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.db import models
 from django.utils import timezone
+import uuid
 
 
 
@@ -25,12 +26,14 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
     
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField( primary_key = True, unique=True,
+         default = uuid.uuid4,  editable = False)
     email = models.EmailField(blank=True, default='', unique=True)
     fname = models.CharField(max_length=255, blank=True, default='')
     lname =  models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=12, blank=True, default='')
     profile_pic = models.ImageField(blank=True,upload_to="media/ids/")
-    
+    is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()

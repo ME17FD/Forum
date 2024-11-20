@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Posts and Comments</h1>
+
+
+{% for post_data in posts_data %}
+        <div>
+            <h2>{{ post_data.post.title }}</h2>
+            <p>{{ post_data.post.text }}</p>
+            <p>Likes: {{ post_data.likes }}</p>
+            <p>Dislikes: {{ post_data.dislikes }}</p>
+            <h3>Comments:</h3>
+            <ul>
+                {% for comment_data in post_data.comments %}
+                    <li>
+                        <p>{{ comment_data.comment.text }}</p>
+                        <p>By: {{ comment_data.comment.user.get_full_name }}</p>
+                        <p>Likes: {{ comment_data.likes }}</p>
+                        <p>Dislikes: {{ comment_data.dislikes }}</p>
+                    </li>
+                    {% empty %}
+                    <p>No Comments</p>
+                    
+                {% endfor %}
+            </ul>
+        </div>
+        {% empty %}
+                    <p>No posts</p>
+    {% endfor %}
+
+
+
+{% endblock %}
