@@ -1,9 +1,6 @@
 from django.core.management.base import BaseCommand
-import random,os,string
-import time
 from main.models import *
-from django.core.files import File
-from PIL import Image
+
 
 
 class Command(BaseCommand):

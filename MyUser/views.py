@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .models import User
