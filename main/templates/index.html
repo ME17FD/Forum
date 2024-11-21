@@ -10,6 +10,8 @@
         <div>
             <h2>{{ post_data.post.title }}</h2>
             <p>{{ post_data.post.text }}</p>
+            <p>{{ post_data.timedelta }}</p>
+            <a href="{% url 'spost' post_id=post_data.post.pk%}">lien</a>
             <p>Likes: {{ post_data.likes }}</p>
             <p>Dislikes: {{ post_data.dislikes }}</p>
             <h3>Comments:</h3>

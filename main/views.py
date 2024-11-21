@@ -1,6 +1,6 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike
-
+from .utils import human_time_difference
 # Create your views here.
 def home2(request):
     posts = Post.objects.prefetch_related('comment_set').all()
@@ -21,12 +21,14 @@ def home(request):
         for comment in comments:
             comments_data.append({
                 'comment': comment,
+                'timedelta': human_time_difference(comment.Date),
                 'likes': CommentLike.objects.filter(comment=comment).count(),
                 'dislikes': CommentDislike.objects.filter(comment=comment).count()
             })
 
         posts_data.append({
             'post': post,
+            'timedelta': human_time_difference(post.Date),
             'likes': Like.objects.filter(post=post).count(),
             'dislikes': Dislike.objects.filter(post=post).count(),
             'comments': comments_data
@@ -35,9 +37,33 @@ def home(request):
     return render(request, 'index.html', {'posts_data': posts_data})
 
 def Bookmark(request):
-    return render(request,"bookmark.html")
+    if request.user.is_authenticated:
+        posts = Post.objects.all()
+        return render(request,"bookmark.html",{"posts":posts})
+    else:
+        return redirect("login")
     
 
-def Specif_Post(request):
-    return render(request,"post.html")
+def Specif_Post(request,pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.filter(post=post)
+
+    
+    comments_data = []
+    for comment in comments:
+        comments_data.append({
+            'comment': comment,
+            'timedelta': human_time_difference(comment.Date),
+            'likes': CommentLike.objects.filter(comment=comment).count(),
+            'dislikes': CommentDislike.objects.filter(comment=comment).count()
+        })
+
+    result = {
+        'post': post,
+        'timedelta': human_time_difference(post.Date),
+        'likes': Like.objects.filter(post=post).count(),
+        'dislikes': Dislike.objects.filter(post=post).count(),
+        'comments': comments_data
+    }
+    return render(request,"post.html",result)
     
