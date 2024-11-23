@@ -9,12 +9,13 @@
    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <div class="nav-bar">
+    <div class="cloud-bg" id="cloud-bg"></div>
+    <div class="nav-bar" id="blured">
         <div class="logo">Apah</div>
-        <div class="search-bar"><input type="text" name="search-bar" placeholder="&#61442; Search..."></div>
+        <div class="search-bar"><input type="text" name="search-bar" placeholder="&#61442; Search..." class="input"></div>
         <a href="{% url 'home' %}" class="sign-button"><div class="sign-button">S'identifier</div></a>
     </div>
-   <div class="main-container">
+   <div class="main-container" id="blured">
     <div class="side-bar">
         <div class="tab-container">
             <a href="{% url 'home' %}" class="tab home">
@@ -43,15 +44,32 @@
             </a>
         </div>
         <div class="post">
-            <a href="{% url 'home' %}" class="post-button">Post</a>
+            <button href="{% url 'home' %}" class="post-button" onclick="openForm()">Post</button>
         </div>
+
     </div>
+    
+    <div class="post-active" id="myForm">
+        <div class="close-icone"><i></i></div>
+        <form action="" method="post" class="post-stuff">
+            {% csrf_token %}
+            <div class="post-active-input">
+            <input type="text" class="post-title-active" placeholder="title">
+            <textarea name="" id="" class="post-data-active" placeholder="Entrer un text"></textarea>
+        </div>
+            <div class="post-btn-container">
+                <input type="submit" value="Post" onclick="closeForm()" class="post-btn-active">
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
     <div class="core-page">
         {% block content %}
         <!-- Page-specific content goes here -->
         {% endblock %}
     
     </div>
+    
     
     
     
