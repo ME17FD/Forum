@@ -2,13 +2,10 @@ from django.shortcuts import render,HttpResponse,redirect
 from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike
 from .utils import human_time_difference
 # Create your views here.
-def home2(request):
-    posts = Post.objects.prefetch_related('comment_set').all()
-    return render(request, 'index.html', {'posts': posts})
 
 def home(request):
     # Query all posts
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-Date")
 
     # Prepare data for rendering
     posts_data = []
@@ -44,8 +41,8 @@ def Bookmark(request):
         return redirect("login")
     
 
-def Specif_Post(request,pk):
-    post = Post.objects.get(pk=pk)
+def Specif_Post(request,post_id):
+    post = Post.objects.get(pk=post_id)
     comments = Comment.objects.filter(post=post)
 
     
