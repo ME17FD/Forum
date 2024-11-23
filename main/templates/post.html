@@ -1,7 +1,81 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <p>post page</p>
+
+    <div class="post-container">
+        {% for post_data in posts_data %}
+        <div class="post-card full">
+            <div class="post-info">
+                <div class="post-user">
+                    <div class="user-data">
+                        <div class="user-avatar"><img src="#" alt=""></div>
+                    </div>
+                    <p class="user-username">username</p>
+                </div>
+                <div class="post-time">posted x ago</div>
+            </div>
+            <a href="">
+            <div class="post-data">
+                <div class="post-title">{{post_data.post.title}}</div>
+                <div class="post-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente quasi neque, amet hic autem fugit quidem non officia et! Aut corporis natus minima, est ipsam dolores earum neque incidunt voluptatem!Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur unde repudiandae voluptate magni molestiae accusantium optio sequi! Laborum, ad saepe eaque repellat quam necessitatibus officia itaque, ab delectus magni voluptate!</div>
+            </div>
+            </a>
+            <div class="post-interactions">
+                <div class="post-votes">
+                    <a href="#">
+                        <div class="upvotes">
+                            <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <sub>255</sub>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="downvotes">
+                            <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <sub>255</sub>
+                        </div>
+                    </a>
+                </div>
+                <a href="#">
+                    <div class="post-likes">
+                        <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M41.68 9.21999C40.6585 8.198 39.4456 7.38728 38.1107 6.83416C36.7758 6.28103 35.345 5.99634 33.9 5.99634C32.455 5.99634 31.0242 6.28103 29.6893 6.83416C28.3544 7.38728 27.1415 8.198 26.12 9.21999L24 11.34L21.88 9.21999C19.8166 7.15661 17.0181 5.99741 14.1 5.99741C11.1819 5.99741 8.38338 7.15661 6.31999 9.21999C4.25661 11.2834 3.09741 14.0819 3.09741 17C3.09741 19.9181 4.25661 22.7166 6.31999 24.78L24 42.46L41.68 24.78C42.702 23.7585 43.5127 22.5456 44.0658 21.2107C44.6189 19.8758 44.9036 18.445 44.9036 17C44.9036 15.555 44.6189 14.1242 44.0658 12.7893C43.5127 11.4544 42.702 10.2415 41.68 9.21999Z"
+                                stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <sub>255</sub>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="post-comments">
+                        <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M4 44V8C4 6.9 4.39167 5.95833 5.175 5.175C5.95833 4.39167 6.9 4 8 4H40C41.1 4 42.0417 4.39167 42.825 5.175C43.6083 5.95833 44 6.9 44 8V32C44 33.1 43.6083 34.0417 42.825 34.825C42.0417 35.6083 41.1 36 40 36H12L4 44ZM10.3 32H40V8H8V34.25L10.3 32Z"
+                                fill="#D9D9D9" />
+                        </svg>
+                        <sub>255</sub>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="post-bookmark">
+                        <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
+                                stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+            </div>
+            </a>
+
+        </div>
+        {%endfor%}
+    </div>
+
 {% endblock %}
