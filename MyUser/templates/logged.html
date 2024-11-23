@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ user.fname }}!</h1>
+    <p>You are successfully logged in.</p>
+    {% if user.profile_pic %}
+        <img src="{{ user.profile_pic.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">
+    {% else %}
+        <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" style="max-width: 150px; border-radius: 50%;">
+    {% endif %}
+    <p>Email: {{ user.email }}</p>
+    <p>Phone: {{ user.phone }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+    {% endblock %}

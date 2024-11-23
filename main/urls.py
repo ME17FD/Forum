@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path("",view=views.home,name="home"),
     path("post/<uuid:post_id>/",view=views.Specif_Post,name="spost"),
-    path("Bookmark/",view=views.Bookmark,name="bookmark"),
+    path("Bookmark/",view=views.Bookmarkv,name="bookmark"),
 
 
 ]
