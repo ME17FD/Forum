@@ -23,6 +23,8 @@ def home(request):
             'dislikes': Dislike.objects.filter(post=post).count(),
             'commentcount':commentc
         })
+    if len(posts_data)==0:
+        return render(request, 'index.html', {})
 
     return render(request, 'index.html', {'posts_data': posts_data})
 
@@ -35,7 +37,10 @@ def Bookmarkv(request):
         except BookMark.DoesNotExist:
             bookm = []
         
-        posts = [i.post for i in bookm]
+        try:
+            posts = [i.post for i in bookm]
+        except TypeError:
+            posts = [bookm.post]
         return render(request,"bookmark.html",{"posts":posts})
         
     else:
