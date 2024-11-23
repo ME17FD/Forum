@@ -10,6 +10,7 @@ body{
     background-color: #0E272F;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 /*nav-bar*/
 .nav-bar{
