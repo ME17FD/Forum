@@ -1,11 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Home</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
 
-edit profile
-
-</body>
-</html>
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" value="{{ user.fname }}" required>
+        </div>
+        <div>
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" value="{{ user.lname }}" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" value="{{ user.phone }}" required>
+        </div>
+        <div>
+            <label for="profile_pic">Profile Picture:</label>
+            <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
+        </div>
+        {% if user.profile_pic %}
+            <div>
+                <p>Current Profile Picture:</p>
+                <img src="{{ user.profile_pic.url }}" alt="Current Profile Picture" style="max-width: 150px; border-radius: 50%;">
+            </div>
+        {% endif %}
+        <div>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+    {% endblock %}

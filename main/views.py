@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse,redirect
-from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike
+from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike,BookMark
 from .utils import human_time_difference
 # Create your views here.
 
@@ -11,34 +11,35 @@ def home(request):
     posts_data = []
     for post in posts:
         # Get comments for the post
-        comments = Comment.objects.filter(post=post)
+        commentc = Comment.objects.filter(post=post).count()
 
         # Prepare comments with their likes/dislikes
-        comments_data = []
-        for comment in comments:
-            comments_data.append({
-                'comment': comment,
-                'timedelta': human_time_difference(comment.Date),
-                'likes': CommentLike.objects.filter(comment=comment).count(),
-                'dislikes': CommentDislike.objects.filter(comment=comment).count()
-            })
+        
 
         posts_data.append({
             'post': post,
             'timedelta': human_time_difference(post.Date),
             'likes': Like.objects.filter(post=post).count(),
             'dislikes': Dislike.objects.filter(post=post).count(),
-            'comments': comments_data
+            'commentcount':commentc
         })
 
     return render(request, 'index.html', {'posts_data': posts_data})
 
-def Bookmark(request):
+
+
+def Bookmarkv(request):
     if request.user.is_authenticated:
-        posts = Post.objects.all()
+        try:
+            bookm = BookMark.objects.get(user=request.user)
+        except BookMark.DoesNotExist:
+            bookm = []
+        
+        posts = [i.post for i in bookm]
         return render(request,"bookmark.html",{"posts":posts})
+        
     else:
-        return redirect("login")
+        return redirect("mylogin")
     
 
 def Specif_Post(request,post_id):
