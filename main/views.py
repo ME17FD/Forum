@@ -62,5 +62,5 @@ def Specif_Post(request,post_id):
         'dislikes': Dislike.objects.filter(post=post).count(),
         'comments': comments_data
     }
-    return render(request,"post.html",result)
+    return render(request,"post.html",{"post_data":result})
     
