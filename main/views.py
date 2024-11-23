@@ -34,11 +34,10 @@ def home(request):
     return render(request, 'index.html', {'posts_data': posts_data})
 
 def Bookmark(request):
-    if request.user.is_authenticated:
+    
         posts = Post.objects.all()
         return render(request,"bookmark.html",{"posts":posts})
-    else:
-        return redirect("login")
+    
     
 
 def Specif_Post(request,post_id):
