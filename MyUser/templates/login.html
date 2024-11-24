@@ -1,24 +1,32 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 {% load static %}
-{% block title %}Home{% endblock %}
-
-{% block content %}
-    <h1>Login</h1>
-    <form method="POST" action="">
-        {% csrf_token %}
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/sstyle.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-container">
+        
+        <div class="title">S'indentifier</div>
+        <div class="input-container">
+            <form action="" method="POST" >
+                {% csrf_token %}
+                <div class="a">
+                <input type="text" placeholder="entrer votre e-mail" name="email">
+                <input type="password" placeholder="entrer votre mot de passe" name="password">
+                <p style="color: #D9D9D9;">{{message}}</p>
+                </div>
+                <div class="connection-btn-container">
+                    <input type="submit" value="Se conneter" class="connection-btn" >
+                </div>
+            </form >
         </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <div class="ma3art-chno">
+            <p>Vous n'avez pas de compte?<span><a href="{% url 'mysignup' %}">Créez en un.</a></span></p>
         </div>
-        {% if message %}
-            <p style="color: red;">{{ message }}</p>
-        {% endif %}
-        <div>
-            <button type="submit">Login</button>
-        </div>
-    </form>
-    {% endblock %}
+    </div>
+</body>
+</html>

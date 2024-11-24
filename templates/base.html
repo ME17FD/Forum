@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{% static 'images/apah.avif'%}">
     <title>{% block title %}My Django Site{% endblock %}</title>
    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="cloud-bg" id="cloud-bg"></div>
     <div class="nav-bar" id="blured">
-        <div class="logo">Apah</div>
-        <div class="search-bar"><input type="text" name="search-bar" placeholder="&#61442; Search..." class="input"></div>
+        <div class="logo"><a href="{% url 'home' %}" class="logo">Apah</a></div>
+        <div class="search-bar"><input type="text" name="search-bar" placeholder="Search..." class="input"></div>
         <a href="{% url 'home' %}" class="sign-button"><div class="sign-button">S'identifier</div></a>
     </div>
    <div class="main-container" id="blured">
@@ -50,8 +51,11 @@
     </div>
     
     <div class="post-active" id="myForm">
-        <div class="close-icone"><i></i></div>
+   
         <form action="" method="post" class="post-stuff">
+            <div class="close-btn">
+                <a onclick="closeForm()"><i class="fa fa-close" style="font-size:24px"></i></a>
+            </div>
             {% csrf_token %}
             <div class="post-active-input">
             <input type="text" class="post-title-active" placeholder="title">
@@ -67,7 +71,6 @@
         {% block content %}
         <!-- Page-specific content goes here -->
         {% endblock %}
-    
     </div>
     
     

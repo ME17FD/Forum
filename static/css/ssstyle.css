@@ -1,0 +1,89 @@
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #153E4A;
+    font-family: "JetBrains Mono" , monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #regForm {
+    background-color: #25808E;
+    font-family: "JetBrains Mono" , monospace;
+    padding: 40px;
+    width: 50%;
+    margin-top: 10%;
+    border-radius: 25px;
+    color: #D9D9D9;
+  }
+  
+  h1 {
+    text-align: center;  
+  }
+  
+  input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    border: 0;
+    border-radius: 15px;
+  }
+  
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #ffdddd;
+  }
+  
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+  
+  button {
+    background-color: #153E4A;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
+  #prevBtn {
+    background-color: #153E4A;
+    color: #D9D9D9;
+  }
+  
+  /* Make circles that indicate the steps of the form: */
+  .step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;  
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+  
+  .step.active {
+    opacity: 1;
+  }
+  
+  .ma3art-chno{
+    margin-top: 5%;
+    margin-left: 30%;
+    color: #D9D9D9;
+}
+
+input:focus{
+    outline: none;
+}

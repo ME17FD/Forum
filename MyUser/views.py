@@ -36,22 +36,7 @@ def userlogin(request):
 
 
 def usersignup(request):
-    if request.method == 'POST':
-        form = UserForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'You have successfully signed up. Please log in.')
-            return redirect('mylogin')
-        else:
-            # If form is invalid, render the form again with error messages
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
-            return render(request, 'authenticate/register.html', {'form': form})
-
-    else:
-        form = UserForm()
-    return render(request, 'authenticate/register.html', {'form': form})  
+    return render(request ,"signup.html")
 
 
 def userlogout(request):
