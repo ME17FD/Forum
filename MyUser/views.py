@@ -56,7 +56,7 @@ def edit_profile(request):
             if request.FILES.get('profile_pic'):
                 user.profile_pic = request.FILES.get('profile_pic')
             user.save()
-            return redirect('profile')  # Redirect to the profile page after saving
+            return redirect('mylogin')  # Redirect to the profile page after saving
         return render(request, 'edit_profile.html', {'user': user})
     else:
         return redirect("mylogin")

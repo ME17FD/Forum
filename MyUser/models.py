@@ -32,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     fname = models.CharField(max_length=255, blank=True, default='')
     lname =  models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=12, blank=True, default='')
-    profile_pic = models.ImageField(blank=True,upload_to="media/ids/")
+    profile_pic = models.ImageField(blank=True,upload_to="ids/")
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
