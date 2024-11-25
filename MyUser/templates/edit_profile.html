@@ -7,6 +7,15 @@
     <h1>Edit Profile</h1>
     <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
+        {% if user.profile_pic %}
+        <div class="profile-input" style="display: flex; flex-direction: column; align-items: center;">
+            <p>Current Profile Picture:</p>
+            <img src="{{ user.profile_pic.url }}" alt="Current Profile Picture" style="width: 150px;height: 150px; border-radius: 50%; align-self: center;">
+        </div>
+    {% endif %}
+    <div class="profile-input">
+        <input type="file" id="profile_pic" name="profile_pic" accept="image/*" class="input-file">
+    </div>
         <div class="profile-input">
             <label for="fname">First Name:</label>
             <input type="text" id="fname" name="fname" value="{{ user.fname }}" required class="input-profile">
@@ -23,16 +32,8 @@
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" name="phone" value="{{ user.phone }}" required class="input-profile">
         </div>
-        <div class="profile-input">
-            <label for="profile_pic">Profile Picture:</label>
-            <input type="file" id="profile_pic" name="profile_pic" accept="image/*" class="input-file">
-        </div>
-        {% if user.profile_pic %}
-            <div class="profile-input">
-                <p>Current Profile Picture:</p>
-                <img src="{{ user.profile_pic.url }}" alt="Current Profile Picture" style="max-width: 150px; border-radius: 50%;">
-            </div>
-        {% endif %}
+  
+        
         <div class="profile-input submit">
             <button type="submit" class="input-btn">Save Changes</button>
         </div>

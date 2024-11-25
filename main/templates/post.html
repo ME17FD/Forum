@@ -7,7 +7,13 @@
                 <div class="post-info full">
                     <div class="post-user full">
                         <div class="user-data">
-                            <div class="user-avatar"><img src="#" alt=""></div>
+                            <div class="user-avatar user-image-container">
+                                {% if post.user.profile_pic %}
+                                <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+                                {% else %}
+                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
+                                {% endif %}
+                            </div>
                         </div>
                         <p class="user-username">{{post_data.post.user.fname}}</p>
                     </div>
@@ -72,17 +78,25 @@
                         </div>
                         {% endif %}
                 </div>
-              
-
+                <form action="" method="POST" style="display: flex;">
+                    {% csrf_token %}
+                    <input type="text" class="comment-input" placeholder="Entrer un commentaire">
+                    <input type="submit" value="poster" class="comment-post">
+                </form>
             </div>
             {% for comment in post_data.comments %}
             <div class="comment-container">
-            
             <div class="post-card comment">
                 <div class="post-info">
                     <div class="post-user">
-                        <div class="user-data">
-                            <div class="user-avatar"><img src="#" alt=""></div>
+                        <div class="comment-user-image">
+                            <div class="comment-user-image-container ">
+                                {% if comment.user.profile_pic %}
+                                <img src="{{ comment.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+                                {% else %}
+                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
+                                {% endif %}
+                            </div>
                         </div>
                         <p class="user-username">{{comment.comment.user.fname}}</p>
                     </div>
@@ -90,7 +104,6 @@
                 </div>
                 
                 <div class="post-data">
-                   
                     <div class="post-text">{{comment.comment.text}}</div>
                 </div>
                

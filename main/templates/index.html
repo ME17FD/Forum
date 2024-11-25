@@ -13,7 +13,13 @@
                 <div class="post-info">
                     <div class="post-user">
                         <div class="user-data">
-                            <div class="user-avatar"><img src="#" alt=""></div>
+                            <div class="user-image-container">
+                                {% if post_data.post.user.profile_pic %}
+                                <img src="{{ post_data.post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+                                {% else %}
+                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
+                                {% endif %}
+                            </div>
                         </div>
                         <p class="user-username">{{post_data.post.user.fname}} {{post_data.post.user.lname}}</p>
                     </div>
@@ -47,7 +53,7 @@
                         </a>
                     </div>
                     
-                    <a href="#">
+                    <a href="{% url 'spost' post_id=post_data.post.pk%}">
                         <div class="post-comments">
                             <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path

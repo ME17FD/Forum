@@ -7,9 +7,9 @@
     <h1>Welcome, {{ user.fname }}!</h1>
     <p>You are successfully logged in.</p>
     {% if user.profile_pic %}
-        <img src="{{ user.profile_pic.url }}" alt="Profile Picture" style="max-width: 150px; border-radius: 50%;">{{ user.profile_pic.url }}
+        <img src="{{ user.profile_pic.url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; align-self:center;">
     {% else %}
-        <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" style="max-width: 150px; border-radius: 50%;">
+        <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" style="width: 150px; border-radius: 50%;">
     {% endif %}
     <p>Email: {{ user.email }}</p>
     <p>Phone: {{ user.phone }}</p>
