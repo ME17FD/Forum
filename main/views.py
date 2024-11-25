@@ -41,7 +41,23 @@ def Bookmarkv(request):
             posts = [i.post for i in bookm]
         except TypeError:
             posts = [bookm.post]
-        return render(request,"bookmark.html",{"posts":posts})
+        
+        posts_data = []
+        for post in posts:
+            # Get comments for the post
+            commentc = Comment.objects.filter(post=post).count()
+
+            # Prepare comments with their likes/dislikes
+            
+
+            posts_data.append({
+                'post': post,
+                'timedelta': human_time_difference(post.Date),
+                'likes': Like.objects.filter(post=post).count(),
+                'dislikes': Dislike.objects.filter(post=post).count(),
+                'commentcount':commentc
+            })
+            return render(request,"bookmark.html",{"posts_data":posts_data})
         
     else:
         return redirect("mylogin")
@@ -58,7 +74,8 @@ def Specif_Post(request,post_id):
             'comment': comment,
             'timedelta': human_time_difference(comment.Date),
             'likes': CommentLike.objects.filter(comment=comment).count(),
-            'dislikes': CommentDislike.objects.filter(comment=comment).count()
+            'dislikes': CommentDislike.objects.filter(comment=comment).count(),
+            
         })
 
     result = {
@@ -66,7 +83,8 @@ def Specif_Post(request,post_id):
         'timedelta': human_time_difference(post.Date),
         'likes': Like.objects.filter(post=post).count(),
         'dislikes': Dislike.objects.filter(post=post).count(),
-        'comments': comments_data
+        'comments': comments_data,
+        'commentcount':comments.count()
     }
     return render(request,"post.html",{"post_data":result})
     

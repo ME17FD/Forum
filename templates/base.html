@@ -13,7 +13,9 @@
     <div class="nav-bar" id="blured">
         <div class="logo">Apah</div>
         <div class="search-bar"><input type="text" name="search-bar" placeholder="&#61442; Search..." class="input"></div>
-        <a href="{% url 'home' %}" class="sign-button"><div class="sign-button">S'identifier</div></a>
+        {% if user.is_authenticated %}<a href="{% url 'mylogin' %}" class="sign-button"><div class="sign-button"><img src="{{ user.profile_pic.url | default:'/static/images/default_user.png' }}" alt="Profile Picture" height = 50px width = 50px >{{user.fname}}</div></a>
+        {% else %}<a href="{% url 'mylogin' %}" class="sign-button"><div class="sign-button">S'identifier</div></a>
+        {% endif %}
     </div>
    <div class="main-container" id="blured">
     <div class="side-bar">
