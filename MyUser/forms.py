@@ -7,11 +7,10 @@ from django.core.exceptions import ValidationError
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ['email', 'fname', 'lname', 'profile_pic', 'password']
+        fields = ['email', 'fname', 'lname', 'phone','profile_pic', 'password']
         requied = User.REQUIRED_FIELDS
 
     def __init__(self, *args, **kwargs):
@@ -42,13 +41,7 @@ class UserForm(forms.ModelForm):
         # Add custom validation for cin_image
         return profile_pic
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        password2 = cleaned_data.get('password2')
-        if password and password2 and password != password2:
-            raise forms.ValidationError("Passwords do not match.")
-        return cleaned_data
+
 
     def save(self, commit=True):
         user = super().save(commit=False)

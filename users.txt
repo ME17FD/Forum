@@ -1,0 +1,7 @@
+user            password
+root@rt.com     toor
+user0@us.com    00000000
+user1@us.com    00000000
+user2@us.com    00000000
+..
+user19@us.com   00000000

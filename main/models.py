@@ -8,8 +8,8 @@ import uuid
 class Post(models.Model):
     id = models.UUIDField( primary_key = True, unique=True,
          default = uuid.uuid4,  editable = False)
-    title = models.CharField(max_length=150)
-    text = models.CharField(max_length=1500)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
     hashtags =models.CharField(max_length=1000,default="")
     Date = models.DateTimeField(default=timezone.now)
     user =  models.ForeignKey(User,on_delete=models.CASCADE)
@@ -21,7 +21,7 @@ class Post(models.Model):
 class Comment(models.Model):
     id = models.UUIDField( primary_key = True, unique=True,
          default = uuid.uuid4,  editable = False)
-    text = models.CharField(max_length=1000)
+    text = models.TextField()
     post = models.ForeignKey(Post,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     Date = models.DateTimeField(default=timezone.now)

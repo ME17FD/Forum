@@ -18,7 +18,7 @@
                                 <img src="{{ post_data.post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
                                 {% else %}
                                 <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
-                                {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                         <p class="user-username">{{post_data.post.user.fname}} {{post_data.post.user.lname}}</p>
@@ -81,8 +81,8 @@
                             </svg>
                         </div>
                         {% endif %}
+                    </a>
                 </div>
-                </a>
 
             </div>
             
@@ -102,7 +102,6 @@
                     const action = this.getAttribute("data-action");
         
                     if (!postId || !["upvote", "downvote", "bookmark"].includes(action)) {
-                        console.error("Invalid postId or action.");
                         return;
                     }
         
@@ -122,7 +121,6 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data)
                         if (data.status === "success") {
                             if (action === "upvote" || action === "downvote") {
                                 const likeCount = this.closest(".post-votes").querySelector(".like-count");
@@ -144,7 +142,7 @@
                     })
                     .catch(error => {
                         console.error("Error:", error);
-                        alert("An error occurred. Please try again.");
+                        alert("Soyez Sur que vous etes connectées");
                     })
                     .finally(() => {
                         this.classList.remove("disabled");

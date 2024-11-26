@@ -13,15 +13,15 @@
         <h1>Register:</h1>
         <!-- One "tab" for each step in the form: -->
         <div class="tab">Name :
-          <p><input placeholder="First name..." oninput="this.className = ''" name="fname"></p>
-          <p><input placeholder="Last name..." oninput="this.className = ''" name="lname"></p>
+          <p><input placeholder="First name..." oninput="this.className = ''" name="fname" required></p>
+          <p><input placeholder="Last name..." oninput="this.className = ''" name="lname" required></p>
         </div>
         <div class="tab">Contact Info :
-          <p><input placeholder="E-mail..." oninput="this.className = ''" name="email"></p>
-          <p><input placeholder="Phone..." oninput="this.className = ''" name="phone"></p>
+          <p><input placeholder="E-mail..." oninput="this.className = ''" name="email" required></p>
+          <p><input placeholder="Phone..." oninput="this.className = ''" name="phone" required></p>
         </div>
         <div class="tab">Password :
-          <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
+          <p><input placeholder="Password..." oninput="this.className = ''" name="password" type="password"  pattern=".{8,}" required></p>
         </div>
         <div style="overflow:auto;">
           <div style="float:right;">

@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .models import User
 from .forms import UserForm
-
+from main.utils import check_post
 
 # Create your views here.
 
@@ -13,6 +13,10 @@ from .forms import UserForm
 def userlogin(request):
     user = request.user
     if request.user.is_authenticated:
+        if request.method =='POST' and request.POST.get("type")=="post":
+                check_post(request)
+                return HttpResponseRedirect('/')
+            
         return render(request,"logged.html",{"user":user})
 
     # If user is not authenticated, handle login form submission
@@ -36,8 +40,18 @@ def userlogin(request):
 
 
 def usersignup(request):
-    return render(request ,"signup.html")
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('mylogin')
+        else:
+            # If form is invalid, render the form again with error messages
+            print(form.errors)
+            return render(request, 'signup.html',)
 
+    
+    return render(request, 'signup.html')
 
 def userlogout(request):
     logout(request)

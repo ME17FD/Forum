@@ -1,6 +1,9 @@
 from datetime import datetime,timedelta,timezone
 from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike,BookMark
 
+def check_comment(request,post):
+    text = request.POST.get("text")
+    Comment.objects.create(text=text,user=request.user,post=post).save()
 
 def human_time_difference(from_time:datetime, to_time:datetime|None =None ) -> str:
     if to_time is None:
@@ -30,5 +33,6 @@ def check_post(request):
     title = request.POST.get("title")
     text = request.POST.get("text")
     Post.objects.create(title = title,text=text,user=request.user).save()
+
         
     

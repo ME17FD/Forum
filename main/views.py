@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
 from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike,BookMark
-from .utils import human_time_difference,check_post
+from .utils import human_time_difference,check_post,check_comment
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -21,18 +21,20 @@ def home(request):
 
         # Prepare comments with their likes/dislikes
         
-
+        postcpy = post
+        postcpy.text = (post.text[:500] + '...') if len(post.text) > 500 else post.text
         posts_data.append({
-            'post': post,
+            'post': postcpy,
             'timedelta': human_time_difference(post.Date),
             'likes': Like.objects.filter(post=post).count(),
             'dislikes': Dislike.objects.filter(post=post).count(),
             'commentcount':commentc,
-            'bookmarked' : BookMark.objects.filter(post=post,user=request.user).exists()
+            'bookmarked' : BookMark.objects.filter(post=post,user=request.user).exists() if(request.user.is_authenticated) else False
         })
     if len(posts_data)==0:
         return render(request, 'index.html', {})
     print(request.POST)
+
     if request.method =='POST':
         if request.user.is_authenticated:
             check_post(request)
@@ -54,7 +56,7 @@ def Bookmarkv(request):
                 return redirect("mylogin")
 
         try:
-            bookm = BookMark.objects.get(user=request.user)
+            bookm = BookMark.objects.filter(user=request.user)
         except BookMark.DoesNotExist:
             bookm = []
         
@@ -85,17 +87,26 @@ def Bookmarkv(request):
     
 
 def Specif_Post(request,post_id):
-    if request.method =='POST':
+    
+    
+    
+    post = Post.objects.get(pk=post_id)
+    comments = Comment.objects.filter(post=post)
+
+
+    if request.method =='POST' and request.POST.get("type")=="post":
         if request.user.is_authenticated:
             check_post(request)
             return HttpResponseRedirect('/')
         else:
             return redirect("mylogin")
     
-
-    post = Post.objects.get(pk=post_id)
-    comments = Comment.objects.filter(post=post)
-
+    if request.method =='POST' and request.POST.get("type")=="comment":
+        if request.user.is_authenticated:
+            check_comment(request,post)
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return redirect("mylogin")
     
     comments_data = []
     for comment in comments:
@@ -114,9 +125,10 @@ def Specif_Post(request,post_id):
         'dislikes': Dislike.objects.filter(post=post).count(),
         'comments': comments_data,
         'commentcount':comments.count(),
-        'bookmarked' : BookMark.objects.filter(post=post,user=request.user).exists()
+        'bookmarked' : BookMark.objects.filter(post=post,user=request.user).exists() if(request.user.is_authenticated) else False
 
     }
+
     return render(request,"post.html",{"post_data":result})
     
 
@@ -126,8 +138,32 @@ def ajax_interaction(request):
         try:
             data = json.loads(request.body)
             post_id = data.get("post_id")
+            comment_id = data.get("comment_id")
             action = data.get("action")
+            data_type = data.get("data_type")
             print(data)
+            if data_type == "comment":
+                
+                
+                    comment = Comment.objects.get(pk=comment_id)
+                    post = Post.objects.get(pk=post_id)
+                    if action == "upvote":
+                        CommentDislike.objects.filter(user=request.user, comment=comment).delete()
+                        CommentLike.objects.get_or_create(user=request.user, comment=comment)
+                    elif action == "downvote":
+                        CommentLike.objects.filter(user=request.user, comment=comment).delete()
+                        CommentDislike.objects.get_or_create(user=request.user, comment=comment)
+                    
+
+                    return JsonResponse({
+                        "status": "success",
+                        "likes": CommentLike.objects.filter(comment=comment).count(),
+                        "dislikes": CommentDislike.objects.filter(comment=comment).count(),
+                        "bookmarked": None,
+                    })
+                
+                
+
             try:
                 post = Post.objects.get(pk=post_id)
             except Post.DoesNotExist:

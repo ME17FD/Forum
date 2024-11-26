@@ -16,13 +16,17 @@
         <div class="search-bar"><input type="text" name="search-bar" placeholder="&#xF002; Search..." class="input" style="font-family: FontAwesome, Arial; font-style: normal"></div>
         {% if user.is_authenticated %}
         <div class="authenticated">
-            <p>{{user.fname}}</p>
+            <a href = {% url 'mylogin' %}><p>{{user.fname}}</p></a>
             <div class="user-image-container-uauthenticated">
+                {% if user.profile_pic %}
                 <img src="{{user.profile_pic.url | default:'static/images/default_user.png'}}" alt="" class="user-image">
+                {% else %}
+                    <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" alt="" class="user-image">
+                {% endif %}
             </div>
         </div>
         {% else %}<a href="{% url 'mylogin' %}" class="sign-button"><div class="sign-button">S'identifier</div></a>
-        {% endif %}
+        {% endif %}</a>
     </div>
    <div class="main-container" id="blured">
     <div class="side-bar">
@@ -61,6 +65,8 @@
     <div class="post-active" id="myForm">
    
         <form action="" method="post" class="post-stuff">
+            <input type="hidden" name="type" value="post">
+
             <div class="close-btn">
                 <a onclick="closeForm()"><i class="fa fa-close" style="font-size:24px"></i></a>
             </div>

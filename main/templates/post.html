@@ -1,146 +1,225 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Post{% endblock %}
+
 {% block content %}
-        <div class="posts-container">
-            <div class="post-card full">
-                <div class="post-info full">
-                    <div class="post-user full">
-                        <div class="user-data">
-                            <div class="user-avatar user-image-container">
-                                {% if post.user.profile_pic %}
-                                <img src="{{ post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
-                                {% else %}
-                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
-                                {% endif %}
-                            </div>
-                        </div>
-                        <p class="user-username">{{post_data.post.user.fname}}</p>
-                    </div>
-                    <div class="post-time full">{{post_data.timedelta}}</div>
-                </div>
-                
-                <div class="post-data">
-                    <div class="post-title">{{post_data.post.title}}</div>
-                    <div class="post-text">{{post_data.post.text}}</div>
-                </div>
-               
-                <div class="post-interactions">
-                    <div class="post-votes">
-                       
-                            <div class="upvotes">
-                                <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <sub>{{post_data.likes}}</sub>
-                            </div>
-                       
-                       
-                            <div class="downvotes">
-                                <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                <sub>{{post_data.dislikes}}</sub>
-                            </div>
-                       
-                    </div>
-                   
-                       
-                  
-                 
-                        <div class="post-comments">
-                            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M4 44V8C4 6.9 4.39167 5.95833 5.175 5.175C5.95833 4.39167 6.9 4 8 4H40C41.1 4 42.0417 4.39167 42.825 5.175C43.6083 5.95833 44 6.9 44 8V32C44 33.1 43.6083 34.0417 42.825 34.825C42.0417 35.6083 41.1 36 40 36H12L4 44ZM10.3 32H40V8H8V34.25L10.3 32Z"
-                                    fill="#D9D9D9" />
-                            </svg>
-                            <sub>{{post_data.commentcount}}</sub>
-                        </div>
-                  
-                 
-                        {% if post_data.bookmarked %}
-                        <div class="post-bookmark">
-                            <svg width="20" height="20" viewBox="0 0 48 48" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
-                                    stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
+<div class="posts-container">
+    <div class="post-card full">
+        <!-- Post Info Section -->
+        <div class="post-info full">
+            <div class="post-user full">
+                <div class="user-data">
+                    <div class="user-avatar user-image-container">
+                        {% if post_data.post.user.profile_pic %}
+                        <img src="{{ post_data.post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
                         {% else %}
-                        <div class="post-bookmark">
-                            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
-                                    stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
+                        <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
                         {% endif %}
+                    </div>
                 </div>
-                <form action="" method="POST" style="display: flex;">
-                    {% csrf_token %}
-                    <input type="text" class="comment-input" placeholder="Entrer un commentaire">
-                    <input type="submit" value="poster" class="comment-post">
-                </form>
+                <p class="user-username">{{ post_data.post.user.fname }}</p>
             </div>
-            {% for comment in post_data.comments %}
-            <div class="comment-container">
-            <div class="post-card comment">
-                <div class="post-info">
-                    <div class="post-user">
-                        <div class="comment-user-image">
-                            <div class="comment-user-image-container ">
-                                {% if comment.user.profile_pic %}
-                                <img src="{{ comment.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
-                                {% else %}
-                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
-                                {% endif %}
-                            </div>
+            <div class="post-time full">{{ post_data.timedelta }}</div>
+        </div>
+
+        <!-- Post Content -->
+        <div class="post-data">
+            <div class="post-title">{{ post_data.post.title }}</div>
+            <div class="post-text">{{ post_data.post.text }}</div>
+        </div>
+
+        <!-- Post Interactions -->
+        <div class="post-interactions">
+            <div class="post-votes">
+                <a href="#">
+                    <div class="upvotes" data-post-id="{{ post_data.post.pk }}" data-action="upvote">
+                        <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <sub class="like-count">{{post_data.likes}}</sub>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="downvotes" data-post-id="{{ post_data.post.pk }}" data-action="downvote">
+                        <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <sub class="dislike-count">{{post_data.dislikes}}</sub>
+                    </div>
+                </a>
+            </div>
+            
+            <a href="{% url 'spost' post_id=post_data.post.pk%}">
+                <div class="post-comments">
+                    <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4 44V8C4 6.9 4.39167 5.95833 5.175 5.175C5.95833 4.39167 6.9 4 8 4H40C41.1 4 42.0417 4.39167 42.825 5.175C43.6083 5.95833 44 6.9 44 8V32C44 33.1 43.6083 34.0417 42.825 34.825C42.0417 35.6083 41.1 36 40 36H12L4 44ZM10.3 32H40V8H8V34.25L10.3 32Z"
+                            fill="#D9D9D9" />
+                    </svg>
+                    <sub>{{post_data.commentcount}}</sub>
+                </div>
+            </a>
+            <a href="#">
+                {% if post_data.bookmarked %}
+                <div class="post-bookmark" data-post-id="{{ post_data.post.pk }}" data-action="bookmark">
+                    <svg width="20" height="20" viewBox="0 0 48 48" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
+                            stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                {% else %}
+                <div class="post-bookmark" data-post-id="{{ post_data.post.pk }}" data-action="bookmark">
+                    <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
+                            stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                {% endif %}
+            </a>
+        </div>
+
+        <!-- Comment Form -->
+        <form action="" method="POST" style="display: flex;">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="comment">
+            <input type="text" name="text" class="comment-input" placeholder="Enter a comment">
+            <input type="submit" value="Post" class="comment-post">
+        </form>
+    </div>
+
+    <!-- Comments Section -->
+    {% for comment in post_data.comments %}
+    <div class="comment-container">
+        <div class="post-card comment">
+            <div class="post-info">
+                <div class="post-user">
+                    <div class="comment-user-image">
+                        <div class="comment-user-image-container">
+                            {% if comment.comment.user.profile_pic %}
+                            <img src="{{ comment.comment.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+                            {% else %}
+                            <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture"
+                                class="user-image">
+                            {% endif %}
                         </div>
-                        <p class="user-username">{{comment.comment.user.fname}}</p>
                     </div>
-                    <div class="post-time">{{comment.timedelta}}</div>
+                    <p class="user-username">{{ comment.comment.user.fname }}</p>
                 </div>
-                
-                <div class="post-data">
-                    <div class="post-text">{{comment.comment.text}}</div>
-                </div>
-               
+                <div class="post-time">{{ comment.timedelta }}</div>
+            </div>
+            <div class="post-data">
+                <div class="post-text">{{ comment.comment.text }}</div>
+            </div>
+            <div class="post-interactions">
                 <div class="post-interactions">
-                    <div class="post-votes">
-                            <div class="upvotes">
+                    <div class="comment-votes">
+                        <a href="#">
+                            <div class="upvotes" data-post-id="{{ post_data.post.pk }}" data-comment-id="{{ comment.comment.pk }}" data-type="comment" data-action="upvote">
                                 <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <sub>{{comment.likes}}</sub>
+                                <sub class="like-count">{{comment.likes}}</sub>
                             </div>
-                       
-                       
-                            <div class="downvotes">
+                        </a>
+                        <a href="#">
+                            <div class="downvotes" data-post-id="{{ post_data.post.pk }}" data-comment-id="{{ comment.comment.pk }}"data-type="comment"  data-action="downvote">
                                 <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <sub>{{comment.dislikes}}</sub>
+                                <sub class="dislike-count" id="{{ comment.comment.pk }}" >{{comment.dislikes}}</sub>
                             </div>
-                       
+                        </a>
                     </div>
-                   
-                        
-                      
+                    
+                    
+                    
                 </div>
-              
-
+            
+               
+                    
+                  
             </div>
         </div>
-            {% endfor %}
-        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
         
-
     
-
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".post-interactions div").forEach(element => {
+            element.addEventListener("click", function () {
+                const postId = this.getAttribute("data-post-id");
+                const action = this.getAttribute("data-action");
+                const data_type = this.getAttribute("data-type");
+                const comment_id = this.getAttribute("data-comment-id");
+    
+                if (!postId || !["upvote", "downvote", "bookmark"].includes(action)) {
+                    return;
+                }
+    
+                // Add a disabled state
+                this.classList.add("disabled");
+    
+                fetch("{% url 'ajax_interaction' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({ post_id: postId, action: action, data_type: data_type ,comment_id: comment_id})
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status === "success") {
+                        if (data_type === "comment") {
+                            const likeCount = this.closest(".comment-votes").querySelector(".like-count");
+                            const dislikeCount = this.closest(".comment-votes").querySelector(".dislike-count");
+                            if (likeCount) likeCount.textContent = data.likes;
+                            if (dislikeCount) dislikeCount.textContent = data.dislikes;
+                        }
+                        else{
+                            if (action === "upvote" || action === "downvote") {
+                            const likeCount = this.closest(".post-votes").querySelector(".like-count");
+                            const dislikeCount = this.closest(".post-votes").querySelector(".dislike-count");
+                            if (likeCount) {likeCount.textContent = data.likes;}
+                            if (dislikeCount) {dislikeCount.textContent = data.dislikes;}
+                            
+                            } else if (action === "bookmark") {
+                            const svgElement = this.querySelector("svg");
+                        
+                            if (svgElement) {
+                                // Update the fill color based on the bookmarked status
+                                svgElement.setAttribute("fill", data.bookmarked ? "white" : "none");
+                            }
+                        }}
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Soyez Sur que vous etes connectées");
+                })
+                .finally(() => {
+                    this.classList.remove("disabled");
+                });
+            });
+        });
+    });
+    
+    
+    
+</script>
 
 
 {% endblock %}
