@@ -1,4 +1,6 @@
 from datetime import datetime,timedelta,timezone
+from .models import Post,Comment,Like,Dislike,CommentLike,CommentDislike,BookMark
+
 
 def human_time_difference(from_time:datetime, to_time:datetime|None =None ) -> str:
     if to_time is None:
@@ -24,3 +26,9 @@ def human_time_difference(from_time:datetime, to_time:datetime|None =None ) -> s
                 return f"{td.seconds} second{'s' if td.seconds > 1 else ''} ago"
 
 
+def check_post(request):
+    title = request.POST.get("title")
+    text = request.POST.get("text")
+    Post.objects.create(title = title,text=text,user=request.user).save()
+        
+    

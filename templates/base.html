@@ -60,8 +60,8 @@
             </div>
             {% csrf_token %}
             <div class="post-active-input">
-            <input type="text" class="post-title-active" placeholder="title">
-            <textarea name="" id="" class="post-data-active" placeholder="Entrer un text"></textarea>
+            <input type="text" name="title" class="post-title-active" placeholder="title">
+            <textarea name="text" id="" class="post-data-active" placeholder="Entrer un text"></textarea>
         </div>
             <div class="post-btn-container">
                 <input type="submit" value="Post" onclick="closeForm()" class="post-btn-active">
