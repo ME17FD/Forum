@@ -49,8 +49,6 @@ def home(request):
 
 def Bookmarkv(request):
     if request.user.is_authenticated:
-        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-        
         try:
             bookm = BookMark.objects.filter(user=request.user)
         except BookMark.DoesNotExist:
@@ -62,7 +60,6 @@ def Bookmarkv(request):
             posts = [bookm.post]
         
         posts_data = []
-        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         for post in posts:
             # Get comments for the post
             commentc = Comment.objects.filter(post=post).count()
@@ -207,7 +204,6 @@ def ajax_interaction(request):
                 "bookmarked": bookmarked,
             })
         except Exception as e:
-            print({"status": "error", "message": f"Unexpected error: {e}"})
             return JsonResponse({"status": "error", "message": f"Unexpected error: {e}"})
     
     return JsonResponse({"status": "error", "message": "Invalid request"})
