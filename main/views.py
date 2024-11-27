@@ -33,7 +33,7 @@ def home(request):
         })
     if len(posts_data)==0:
         return render(request, 'index.html', {})
-    print(request.POST)
+    
 
     if request.method =='POST':
         if request.user.is_authenticated:
@@ -49,12 +49,8 @@ def home(request):
 
 def Bookmarkv(request):
     if request.user.is_authenticated:
-        if request.method =='POST':
-            if request.user.is_authenticated:
-                check_post(request)
-            else:
-                return redirect("mylogin")
-
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        
         try:
             bookm = BookMark.objects.filter(user=request.user)
         except BookMark.DoesNotExist:
@@ -66,6 +62,7 @@ def Bookmarkv(request):
             posts = [bookm.post]
         
         posts_data = []
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         for post in posts:
             # Get comments for the post
             commentc = Comment.objects.filter(post=post).count()
@@ -80,7 +77,19 @@ def Bookmarkv(request):
                 'dislikes': Dislike.objects.filter(post=post).count(),
                 'commentcount':commentc
             })
-            return render(request,"bookmark.html",{"posts_data":posts_data})
+        if len(posts_data)==0:
+            return render(request, 'index.html', {})
+        
+
+        if request.method =='POST':
+            if request.user.is_authenticated:
+                check_post(request)
+                return HttpResponseRedirect('/')
+            else:
+                return redirect("mylogin")
+
+
+        return render(request, 'bookmark.html', {'posts_data': posts_data})
     
     else:
         return redirect("mylogin")

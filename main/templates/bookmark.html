@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Enregistrés{% endblock %}
+{% block title %}Accceuil{% endblock %}
 
 {% block content %}
 
@@ -9,12 +9,17 @@
 
 {% for post_data in posts_data %}
         <div class="posts-container">
-            
             <div class="post-card">
                 <div class="post-info">
                     <div class="post-user">
                         <div class="user-data">
-                            <div class="user-avatar"><img src="#" alt=""></div>
+                            <div class="user-image-container">
+                                {% if post_data.post.user.profile_pic %}
+                                <img src="{{ post_data.post.user.profile_pic.url }}" alt="Profile Picture" class="user-image">
+                                {% else %}
+                                <img src="{% static 'images/default_user.png' %}" alt="Default Profile Picture" class="user-image">
+                                {% endif %}
+                            </div>
                         </div>
                         <p class="user-username">{{post_data.post.user.fname}} {{post_data.post.user.lname}}</p>
                     </div>
@@ -29,26 +34,26 @@
                 <div class="post-interactions">
                     <div class="post-votes">
                         <a href="#">
-                            <div class="upvotes">
+                            <div class="upvotes" data-post-id="{{ post_data.post.pk }}" data-action="upvote">
                                 <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <sub>{{post_data.likes}}</sub>
+                                <sub class="like-count">{{post_data.likes}}</sub>
                             </div>
                         </a>
                         <a href="#">
-                            <div class="downvotes">
+                            <div class="downvotes" data-post-id="{{ post_data.post.pk }}" data-action="downvote">
                                 <svg width="10" height="10" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9 16V2M9 2L2 9M9 2L16 9" stroke="#D9D9D9" stroke-width="4" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <sub>{{post_data.dislikes}}</sub>
+                                <sub class="dislike-count">{{post_data.dislikes}}</sub>
                             </div>
                         </a>
                     </div>
                     
-                    <a href="#">
+                    <a href="{% url 'spost' post_id=post_data.post.pk%}">
                         <div class="post-comments">
                             <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -59,26 +64,88 @@
                         </div>
                     </a>
                     <a href="#">
-
-                        <div class="post-bookmark">
-                            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                       
+                        <div class="post-bookmark" data-post-id="{{ post_data.post.pk }}" data-action="bookmark">
+                            <svg width="20" height="20" viewBox="0 0 48 48" fill="white" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M38 42L24 32L10 42V10C10 8.93913 10.4214 7.92172 11.1716 7.17157C11.9217 6.42143 12.9391 6 14 6H34C35.0609 6 36.0783 6.42143 36.8284 7.17157C37.5786 7.92172 38 8.93913 38 10V42Z"
                                     stroke="#D9D9D9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
                         
+                    </a>
                 </div>
-                </a>
 
             </div>
             
         </div>
         {% empty %}
-        nothing
+        pas de postes
 
     {% endfor %}
 
-
+    <script>
+        
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".post-interactions div").forEach(element => {
+                element.addEventListener("click", function () {
+                    const postId = this.getAttribute("data-post-id");
+                    const action = this.getAttribute("data-action");
+        
+                    if (!postId || !["upvote", "downvote", "bookmark"].includes(action)) {
+                        return;
+                    }
+        
+                    // Add a disabled state
+                    this.classList.add("disabled");
+        
+                    fetch("{% url 'ajax_interaction' %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: JSON.stringify({ post_id: postId, action: action })
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === "success") {
+                            if (action === "upvote" || action === "downvote") {
+                                const likeCount = this.closest(".post-votes").querySelector(".like-count");
+                                const dislikeCount = this.closest(".post-votes").querySelector(".dislike-count");
+                                if (likeCount) {likeCount.textContent = data.likes;}
+                                if (dislikeCount) {dislikeCount.textContent = data.dislikes;}
+                                
+                            } else if (action === "bookmark") {
+                                const svgElement = this.querySelector("svg");
+                            
+                                if (svgElement) {
+                                    // Update the fill color based on the bookmarked status
+                                    svgElement.setAttribute("fill", data.bookmarked ? "white" : "none");
+                                }
+                            }
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Soyez Sur que vous etes connectées");
+                    })
+                    .finally(() => {
+                        this.classList.remove("disabled");
+                    });
+                });
+            });
+        });
+        
+        
+        
+    </script>
+    
 
 {% endblock %}
