@@ -35,6 +35,8 @@ class Command(BaseCommand):
         u, b = User.objects.get_or_create(fname="root", lname="root", email="root@rt.com")
         if b:
             u.is_superuser = True
+            u.is_staff = True
+            u.is_active = True
             u.set_password("toor")
             u.save()
             print("Root user created.")
