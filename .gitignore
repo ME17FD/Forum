@@ -1,3 +1,5 @@
 MyUser/__pycache__
 __pycache__/
 main/__pycache__
+main/management/__pycache__
+main/management/commands/__pycache__
